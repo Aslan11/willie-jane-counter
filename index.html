@@ -1,0 +1,172 @@
+<html>
+    <head>
+        <title>Happy Hour Counter</title>
+        <style>
+            body, html {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: #1e1e1e;
+                overflow: hidden;
+            }
+
+            .logo {
+                margin: 60px auto;
+                display: block;
+            }
+
+            .time {
+                color: white;
+                width: 100%;
+                text-align: center;
+                position: relative;
+            }
+
+            .time.isnow::after {
+                content: '';
+            }
+
+            .time::after {
+                content: 'Until Happy Hour';
+                color: white;
+                text-align: center;
+                position: absolute;
+                font-size: 20px;
+                left: 0;
+                right: 0;
+                bottom: -22px;
+            }
+
+            .time div {
+                font-size: 80px;
+                display: inline-block;
+                position: relative;
+            }
+
+            .time.isnow #days::after {
+                content: '';
+            }
+
+            .time.isnow #hours::after {
+                content: '';
+            }
+
+            .time.isnow #minutes::after {
+                content: '';
+            }
+
+            .time.isnow #seconds::after {
+                content: '';
+            }
+            #days::after {
+                content: 'DAYS';
+                position: absolute;
+                font-size: 20px;
+                top: -20px;
+                left: 0;
+                right: 0;
+                text-align: center;
+            }
+
+            #hours::after {
+                content: 'HOURS';
+                position: absolute;
+                font-size: 20px;
+                top: -20px;
+                left: 0;
+                right: 0;
+                text-align: center;
+            }
+
+            #minutes::after {
+                content: 'MINUTES';
+                position: absolute;
+                font-size: 20px;
+                top: -20px;
+                left: 0;
+                right: 0;
+                text-align: center;
+            }
+
+            #seconds::after {
+                content: 'SECONDS';
+                position: absolute;
+                font-size: 20px;
+                top: -20px;
+                left: 0;
+                right: 0;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="http://williejane.com/wp-content/uploads/williejane_logo1.png" class="logo">
+        <div class="time">
+            <div id="days"></div>
+            <div id="colon-1"></div>
+            <div id="hours"></div>
+            <div id="colon-2"></div>
+            <div id="minutes"></div>
+            <div id="colon-3"></div>
+            <div id="seconds"></div>
+        </div>
+        <script>
+            function updateCountdown() {
+                var currentDate = new Date();
+                var currentDay  = currentDate.getDay();
+                var currentUNIX = currentDate.getTime()
+
+                var fridayDate = new Date();
+                fridayDate.setDate(fridayDate.getDate() + (5 - currentDay))
+                fridayDate.setMilliseconds(0);
+                fridayDate.setSeconds(0);
+                fridayDate.setMinutes(0);
+                fridayDate.setHours(17);
+                var fridayUNIX = fridayDate.getTime();
+
+                var diff = Math.floor((fridayUNIX - currentUNIX) / 1000);
+
+                if (currentDay == 0 || currentDay == 6 || diff <= 0) {
+                    // current day is Sunday, Saturday or is after 17.00 on Friday
+                    document.getElementById('days').innerHTML    = "It ";
+                    document.getElementById('hours').innerHTML   = "Is ";
+                    document.getElementById('minutes').innerHTML = "Happy ";
+                    document.getElementById('seconds').innerHTML = "Hour!";
+                    document.getElementById('colon-1').innerHTML = '';
+                    document.getElementById('colon-2').innerHTML = '';
+                    document.getElementById('colon-3').innerHTML = '';
+                    document.getElementsByClassName('time')[0].className = 'time isnow'
+                } else {
+                    var seconds = diff % 60;
+                    diff = Math.floor(diff / 60);
+                    var minutes = diff % 60;
+                    diff = Math.floor(diff / 60);
+                    var hours   = diff % 24;
+                    diff = Math.floor(diff / 24);
+                    var days    = diff;
+
+                // pad single digits
+                if (days    < 10) days    = "0" + days;
+                if (hours   < 10) hours   = "0" + hours;
+                if (minutes < 10) minutes = "0" + minutes;
+                if (seconds < 10) seconds = "0" + seconds;
+
+                // insert values into table
+                document.getElementById('days').innerHTML    = days;
+                document.getElementById('hours').innerHTML   = hours;
+                document.getElementById('minutes').innerHTML = minutes;
+                document.getElementById('seconds').innerHTML = seconds;
+                document.getElementById('colon-1').innerHTML = ':';
+                document.getElementById('colon-2').innerHTML = ':';
+                document.getElementById('colon-3').innerHTML = ':';
+                document.getElementsByClassName('time')[0].className = 'time'
+
+                }
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        </script>
+    </body>
+</html>
