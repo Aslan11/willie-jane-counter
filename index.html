@@ -122,12 +122,12 @@
                 fridayDate.setMilliseconds(0);
                 fridayDate.setSeconds(0);
                 fridayDate.setMinutes(0);
-                fridayDate.setHours(17);
+                fridayDate.setHours(16);
                 var fridayUNIX = fridayDate.getTime();
 
                 var diff = Math.floor((fridayUNIX - currentUNIX) / 1000);
 
-                if (currentDay == 0 || currentDay == 6 || diff <= 0) {
+                if (diff <= 0) {
                     // current day is Sunday, Saturday or is after 17.00 on Friday
                     document.getElementById('days').innerHTML    = "It ";
                     document.getElementById('hours').innerHTML   = "Is ";
